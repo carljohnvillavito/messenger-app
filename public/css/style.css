@@ -1,9 +1,9 @@
 /* public/css/style.css */
 body {
-    font-family: sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #f0f2f0, #e0e0e0); /* Light gradient background */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,24 +12,37 @@ body {
 
 .container {
     background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Slight shadow */
     text-align: center;
-    width: 300px;
+    width: 350px;
+    transition: box-shadow 0.3s ease; /* Smooth transition for hover */
+}
+
+.container:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
 }
 
 .container h1 {
-    margin-bottom: 20px;
+    color: #333;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05); /* Subtle text shadow */
 }
 
 .container input, .container button {
-    width: calc(100% - 22px);
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
+    width: calc(100% - 20px);
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
     border: 1px solid #ddd;
     box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.container input:focus {
+    border-color: #5cb85c; /* Highlighted input on focus */
+    outline: none;
 }
 
 .container button {
@@ -37,6 +50,7 @@ body {
     color: white;
     border: none;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .container button:hover {
@@ -44,102 +58,162 @@ body {
 }
 
 .container .error {
-    color: red;
-    margin-bottom: 10px;
+    color: #e74c3c;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #fde7e5;
+    border-radius: 6px;
 }
+
 
 /* Chat styles */
 .chat-container {
-    width: 80%;
+    width: 90%;
     max-width: 800px;
     background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
     display: flex;
     flex-direction: column;
-    height: 80vh; /* Set a specific height for the chat */
+    height: 85vh;
+    transition: box-shadow 0.3s ease;
+}
+
+.chat-container:hover {
+     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .chat-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+
+.chat-header h1 {
+    color: #333;
+    margin-bottom: 0; /* Remove default margin */
+    font-size: 2em;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.chat-header p {
+  margin-bottom: 0;
+  color: #777;
 }
 
 .messages-container {
     flex-grow: 1;
-    overflow-y: auto; /* Scroll only if overflow */
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    padding: 10px 0;
+    padding: 15px 0;
+    scrollbar-width: thin;
+    scrollbar-color: #aaa #eee;
+}
+
+.messages-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 5px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+    background-color: #eee;
+    border-radius: 5px;
 }
 
 .message {
-    padding: 10px;
+    padding: 12px;
     border-radius: 8px;
-    margin-bottom: 10px;
-    max-width: 70%;
+    margin-bottom: 12px;
+    max-width: 75%;
     word-wrap: break-word;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.3s ease;
+    position: relative; /* Position for sender name */
 }
 
 .message-sent {
     background-color: #dcf8c6;
-    align-self: flex-end; /* Align sent messages to the right */
+    align-self: flex-end;
 }
 
 .message-received {
     background-color: #e5e5ea;
-    align-self: flex-start; /* Align received messages to the left */
+    align-self: flex-start;
 }
 
+
+.message-sent:hover, .message-received:hover {
+    background-color: #e0e0e0;
+}
 .message-form {
     display: flex;
-    margin-top: 20px;
-    border-top: 1px solid #eee;
-    padding-top: 10px;
+    margin-top: 25px;
+    border-top: 2px solid #f0f0f0;
+    padding-top: 15px;
 }
 
 .message-form input {
     flex-grow: 1;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 10px;
+    border-radius: 6px;
+    margin-right: 12px;
+    transition: border-color 0.3s ease;
+}
+
+.message-form input:focus {
+    border-color: #5cb85c;
+    outline: none;
 }
 
 .message-form button {
-    padding: 10px 20px;
+    padding: 12px 20px;
     background-color: #5cb85c;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .message-form button:hover {
     background-color: #4cae4c;
 }
 
+
 .logout-btn {
     background-color: #d9534f;
     color: white;
     border: none;
     padding: 10px 15px;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     text-decoration: none;
+    transition: background-color 0.3s ease;
 }
 
 .logout-btn:hover {
     background-color: #c9302c;
 }
 
-.sender-name{
-  font-weight: bold;
-  margin-right: 5px;
-}
 
+.sender-name {
+    font-weight: bold;
+    margin-right: 5px;
+    position: absolute; /* Position the sender name */
+    top: -18px;
+    left: 10px;
+    font-size: 0.9em;
+    color: #777;
+    background: white;
+    padding: 0px 5px;
+}
