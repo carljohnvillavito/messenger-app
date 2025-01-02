@@ -33,7 +33,12 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'default_secret',
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: MONGODB_URI })
+    store: MongoStore.create({ mongoUrl: MONGODB_URI }),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+        httpOnly: true,
+         secure: false
+    }
 }));
 
 // Routes
