@@ -12,17 +12,30 @@ function ensureAuthenticated(req, res, next) {
 }
 
 router.get('/chat', ensureAuthenticated, async (req, res) => {
-    const messages = await Message.find().populate('sender');
-    const user = await User.findById(req.session.userId);
-    res.render('chat', { messages, user });
+    try{
+      const messages = await Message.find().populate('sender');
+      const user = await User.findById(req.session.userId);
+       res.render('chat', { messages, user });
+    } catch(error){
+       console.error("Error on render chat page: ", error);
+        res.status(500).send('Internal Server Error');
+    }
+
 });
  router.get('/user/:id', ensureAuthenticated, async (req, res) => {
-      const { id } = req.params;
+    try{
+        const { id } = req.params;
         const profile = await User.findById(id);
+
         if (!profile) {
           return res.status(404).send("User not found.");
         }
             res.render('user_profile', { profile });
+     } catch(error){
+        console.error("Error on render profile page: ", error);
+       res.status(500).send('Internal Server Error');
+      }
+
   });
 
 
