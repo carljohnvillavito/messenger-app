@@ -10,10 +10,16 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
     if (user && await user.isValidPassword(password)) {
-      req.session.userId = user._id;
-      res.redirect('/chat');
+        req.session.userId = user._id;
+        req.session.save(err =>{
+             if(err){
+                console.error("error saving session: ", err);
+                return res.status(500).send("Internal Server Error");
+             }
+           res.redirect('/chat');
+        })
     } else {
-      res.render('login', { error: 'Invalid credentials', success: null });
+        res.render('login', { error: 'Invalid credentials', success: null });
     }
 });
 
@@ -22,23 +28,35 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-    const { username, fullname, password } = req.body;
-    try {
-        const existingUser = await User.findOne({ username });
-        if (existingUser) {
-            return res.render('register', { error: `This user name ${username} is already registered!`, success: null });
-        }
-        const user = new User({ username, fullname, password });
-        await user.save();
-        res.render('register', { success: 'Account created successfully!', error: null });
+  const { username, fullname, password } = req.body;
+  try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+        return res.render('register', { error: `This user name ${username} is already registered!`, success: null });
+     }
+      const user = new User({ username, fullname, password });
+       await user.save();
+        req.session.userId = user._id;
+        req.session.save(err => {
+            if(err){
+                 console.error("error saving session: ", err);
+                 return res.status(500).send("Internal Server Error");
+            }
+            res.render('register', { success: 'Account created successfully!', error: null });
+        });
+
     } catch(err) {
-        res.render('register', { error: 'Registration failed.', success: null });
+         res.render('register', { error: 'Registration failed.', success: null });
     }
 });
 
 router.get('/logout', (req, res) => {
-    req.session.destroy(() => {
-      res.redirect('/login');
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error destroying session: ", err);
+            return res.status(500).send("Internal Server Error");
+        }
+        res.redirect('/login');
     });
 });
 
