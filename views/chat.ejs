@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <header class="chat-header">
+            <h1>Chat</h1>
+            <p>Logged in as: <%= user.username %></p>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </header>
+        <div class="messages-container">
+            <% messages.forEach(message => { %>
+                <div class="message <%= message.sender._id.toString() === user._id.toString() ? 'message-sent' : 'message-received' %>">
+                   <span class="sender-name"> <%= message.sender.username %>: </span>
+                  <%= message.content %>
+                </div>
+            <% }) %>
+        </div>
+        <form action="/chat/send" method="POST" class="message-form">
+            <input type="text" name="content" placeholder="Type your message..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</body>
+</html>
