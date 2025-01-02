@@ -22,17 +22,17 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-  const { username, fullname, password } = req.body;
-  try {
-      const existingUser = await User.findOne({ username });
-      if (existingUser) {
-          return res.render('register', { error: `This user name ${username} is already registered!`, success: null });
-      }
+    const { username, fullname, password } = req.body;
+    try {
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.render('register', { error: `This user name ${username} is already registered!`, success: null });
+        }
         const user = new User({ username, fullname, password });
         await user.save();
-      res.render('register', { success: 'Account created successfully!', error: null });
+        res.render('register', { success: 'Account created successfully!', error: null });
     } catch(err) {
-      res.render('register', { error: 'Registration failed.', success: null });
+        res.render('register', { error: 'Registration failed.', success: null });
     }
 });
 
