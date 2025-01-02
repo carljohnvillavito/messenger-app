@@ -3,6 +3,9 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 
+router.get('/register', (req, res) => {
+    res.render('register', { error: null }); // Add this line
+});
 
 router.get('/login', (req, res) => {
     res.render('login', { error: null }); // Add this line
