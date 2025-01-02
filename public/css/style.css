@@ -1,333 +1,333 @@
 /* public/css/style.css */
 body {
-font-family: 'Arial', sans-serif;
-margin: 0;
-padding: 0;
-background: linear-gradient(135deg, #1a1a2e, #320a4c); /* Dark neon violet gradient */
-color: #fff; /* Set default text color */
-display: flex;
-justify-content: center;
-align-items: center;
-min-height: 100vh;
-background-attachment: fixed; /* fix background position so when you scroll the background is not scrolled */
-}
-
-.container {
-  background: rgba(255, 255, 255, 0.08); /* Semi-transparent white container */
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-  text-align: center;
-  width: 350px;
-  transition: box-shadow 0.3s ease;
-}
-
-.container:hover {
-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Increased shadow on hover */
-}
-.container h1 {
-   color: #c8a2c8;
-   margin-bottom: 25px;
-   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3); /* Subtle text shadow */
-}
-
-.container input, .container button {
-    width: calc(100% - 20px);
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    border: 1px solid #61448a;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-     box-sizing: border-box;
-   transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-.container input:focus {
-    border-color: #c8a2c8; /* Highlighted input on focus */
-    background-color: rgba(255, 255, 255, 0.2);
-   outline: none;
-}
-
- .container button {
-   background-color: #c8a2c8;
-   color: #222; /* Dark text on button */
-   border: none;
-   cursor: pointer;
-   transition: background-color 0.3s ease, color 0.3s ease;
-}
-
- .container button:hover {
-   background-color: #b179bb;
-   color: #fff;
-}
-
- .container .error {
-     color: #ff4d4d;
-     margin-bottom: 15px;
-     padding: 10px;
-     background-color: rgba(255, 77, 77, 0.1);
-     border-radius: 6px;
-}
-
-/* Chat styles */
-.chat-container {
-   width: 90%;
-   max-width: 800px;
-  background: rgba(255, 255, 255, 0.08);
-   border-radius: 12px;
-   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-   padding: 30px;
-   display: flex;
-   flex-direction: column;
-   height: 85vh;
-   transition: box-shadow 0.3s ease;
-}
-
- .chat-container:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-}
-
-
-.chat-header {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   margin-bottom: 25px;
-   border-bottom: 2px solid #61448a;
-  padding-bottom: 15px;
-  }
-
-.chat-header h1 {
-   color: #c8a2c8;
- margin-bottom: 0;
- font-size: 2em;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-}
-
-.chat-header p {
-  margin-bottom: 0;
-   color: #ccc;
- }
-
-.messages-container {
-     flex-grow: 1;
-     overflow-y: auto;
-     display: flex;
-     flex-direction: column;
-      padding: 10px; /* reduce padding so less borders are visible in outer area */
-     border: 1px solid #61448a; /* Add a border to the message container */
-     border-radius: 8px;/* Add some border-radius*/
-    max-height: 400px;/* Limit height for the message*/
-    scrollbar-width: thin;
-    scrollbar-color: #888 #333;
-    margin-bottom: 10px; /* space under message border*/
-      box-sizing: border-box; /* Added box-sizing so it keeps borders within container size */
- }
-
-.messages-container::-webkit-scrollbar {
-   width: 8px;
-}
-
-.messages-container::-webkit-scrollbar-thumb {
-    background-color: #888;
-   border-radius: 5px;
-}
-
- .messages-container::-webkit-scrollbar-track {
-  background-color: #333;
-  border-radius: 5px;
-}
-
-.message {
-     padding: 12px;
-   border-radius: 8px;
-       margin-bottom: 12px;
-       max-width: 75%;
-      word-wrap: break-word; /* Ensure text wraps */
-     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-       transition: background-color 0.3s ease;
-       display: flex;
-      flex-direction: column;
-       align-items: flex-start;
-       position: relative;
-       /* clear: both; Removing clear so it respects border limits, this is only good if you want to do floatings*/
-      word-break: break-word; /* Added break-word to avoid overflow */
-     }
-
-
-.message-sent {
-   background-color: #4a3562;
-   align-self: flex-end; /*  Sent message moves to the right*/
- }
-
- .message-received {
-    background-color: #3a3a4a;
-   align-self: flex-start;/* Recieved message moves to the left*/
- }
-
- .message-sent:hover, .message-received:hover {
-   background-color: #444;
- }
-   .sender-name {
-       font-weight: bold;
-      margin-bottom: 5px;  /* set the margin-bottom to put a gap between the profile and message text*/
-         display: inline-flex; /* Display profile img and user text horizontally */
-         align-items: center;
-       font-size: 0.9em;
-     color: #aaa;
-         background: transparent;
-       padding: 0px 5px;
-     }
-
-
-    .message-attachment {
-       max-width: 300px;
-       max-height: 200px;
-     border-radius: 8px;
-     margin-top: 5px;
-      display: block;
-     /* clear: both; */ /* removing since there might be issue when removing the `clear: both` on the messages and added box sizing to container*/
- }
-.message-sent .sender-name { /* Style when message has send to align the logo on the right of the sender name */
-  flex-direction: row-reverse; /* Flips elements order in sender name */
-}
- .message-sent .sender-name img { /* Aligns the profile img at the right when message is sent. */
- margin-left: 5px; /*  set margin-left to separate the profile photo from the sender name  */
-     margin-right: 0; /* overrides general profile photo*/
-   }
-
-.message-received .sender-name  img { /* align to the left of the message */
-   margin-right: 5px;/* set the margin-right to separate profile image */
-}
-
-.message-form {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #1a1a2e, #320a4c); /* Dark neon violet gradient */
+  color: #fff; /* Set default text color */
   display: flex;
-   margin-top: 25px;
-    border-top: 2px solid #61448a;
-    padding-top: 15px;
-}
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+    background-attachment: fixed; /* fix background position so when you scroll the background is not scrolled */
+ }
 
-.message-form textarea, .message-form button {
-    padding: 12px;
-     border: 1px solid #61448a;
-    border-radius: 6px;
-  transition: border-color 0.3s ease;
-   background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    resize: vertical;/* Added to allow vertical resize */
-   max-height: 150px;  /* set the max height */
-    font-family: inherit;
+ .container {
+     background: rgba(255, 255, 255, 0.08); /* Semi-transparent white container */
+     padding: 30px;
+     border-radius: 12px;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+     text-align: center;
+     width: 350px;
+     transition: box-shadow 0.3s ease;
   }
-  .message-form textarea:focus {
-   border-color: #c8a2c8;
-   outline: none;
- }
 
-  .message-form input, .message-form button { /* to not affect the other input elements */
-    padding: 12px;
-     border: 1px solid #61448a;
-      border-radius: 6px;
-  transition: border-color 0.3s ease;
-     background-color: rgba(255, 255, 255, 0.1);
-     color: #fff;
- }
+  .container:hover {
+   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Increased shadow on hover */
+   }
+   .container h1 {
+      color: #c8a2c8;
+      margin-bottom: 25px;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3); /* Subtle text shadow */
+   }
 
- .message-form button {
-    background-color: #c8a2c8;
-   color: #222;
-    border: none;
-   cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-.message-form button:hover {
- background-color: #b179bb;
-  color: #fff;
-}
+   .container input, .container button {
+       width: calc(100% - 20px);
+       padding: 12px;
+       margin-bottom: 15px;
+       border-radius: 6px;
+       border: 1px solid #61448a;
+       background-color: rgba(255, 255, 255, 0.1);
+       color: #fff;
+        box-sizing: border-box;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+   }
 
+  .container input:focus {
+       border-color: #c8a2c8; /* Highlighted input on focus */
+       background-color: rgba(255, 255, 255, 0.2);
+      outline: none;
+   }
 
- .logout-btn {
-    background-color: #ff4d4d;
-   color: white;
-    border: none;
-  padding: 10px 15px;
-   border-radius: 8px;
- cursor: pointer;
-    text-decoration: none;
-   transition: background-color 0.3s ease;
-}
-.logout-btn:hover {
-    background-color: #cc0000;
-}
+    .container button {
+      background-color: #c8a2c8;
+      color: #222; /* Dark text on button */
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+   }
 
-.profile-photo{
- width: 25px;
- border-radius: 100%;
- margin-right: 5px;
-}
-.attachment-input {
- color: transparent;
-   width: 20px;
-     height: 20px;
- }
+    .container button:hover {
+      background-color: #b179bb;
+      color: #fff;
+  }
 
-.attachment-input::-webkit-file-upload-button {
-visibility: hidden;
-}
- .attachment-input::before {
-     content: '\+';
-     display: inline-block;
-     color: #aaa;
-    background-color: #61448a;
-  border-radius: 100%;
-    padding: 3px 7px;
-}
-/* Chat Tabs */
-   .chat-tabs {
+    .container .error {
+        color: #ff4d4d;
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: rgba(255, 77, 77, 0.1);
+        border-radius: 6px;
+   }
+
+   /* Chat styles */
+  .chat-container {
+      width: 90%;
+      max-width: 800px;
+     background: rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+      padding: 30px;
       display: flex;
-     border-bottom: 2px solid #61448a;
-   }
-
- .chat-tabs .tab {
-    padding: 12px 15px;
-     background-color: transparent;
-     color: #aaa;
-    border: none;
-   border-bottom: 2px solid transparent;
-   cursor: pointer;
-     transition: background-color 0.3s ease, color 0.3s ease;
+      flex-direction: column;
+      height: 85vh;
+      transition: box-shadow 0.3s ease;
   }
 
- .chat-tabs .tab.active {
-   border-bottom-color: #c8a2c8;
-    color: #c8a2c8;
+    .chat-container:hover {
+     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
   }
 
-.chat-tabs .tab:hover {
-     background-color: rgba(255, 255, 255, 0.05);
-   }
-    .tab-content {
-    display: none;
-    padding-top: 20px;
-   }
 
-  .tab-content.active {
-     display: block;
-   }
-.profile-content {
-    padding: 20px;
-  }
-    .profile-content h2 {
-     color: #c8a2c8;
-      margin-bottom: 20px;
+  .chat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      border-bottom: 2px solid #61448a;
+     padding-bottom: 15px;
      }
-  .profile-content p {
-      margin-bottom: 10px;
-    }
- #copy-user-id{
-    background: transparent;
-      border: 1px solid #61448a;
-   color: #aaa;
-    padding: 5px 10px;
-   border-radius: 5px;
+
+  .chat-header h1 {
+      color: #c8a2c8;
+    margin-bottom: 0;
+    font-size: 2em;
+     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
   }
+
+   .chat-header p {
+     margin-bottom: 0;
+      color: #ccc;
+    }
+
+  .messages-container {
+        flex-grow: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+         padding: 10px; /* reduce padding so less borders are visible in outer area */
+        border: 1px solid #61448a; /* Add a border to the message container */
+        border-radius: 8px;/* Add some border-radius*/
+       max-height: 400px;/* Limit height for the message*/
+       scrollbar-width: thin;
+       scrollbar-color: #888 #333;
+       margin-bottom: 10px; /* space under message border*/
+         box-sizing: border-box; /* Added box-sizing so it keeps borders within container size */
+    }
+
+   .messages-container::-webkit-scrollbar {
+      width: 8px;
+  }
+
+   .messages-container::-webkit-scrollbar-thumb {
+       background-color: #888;
+      border-radius: 5px;
+   }
+
+    .messages-container::-webkit-scrollbar-track {
+     background-color: #333;
+     border-radius: 5px;
+  }
+
+   .message {
+        padding: 12px;
+      border-radius: 8px;
+          margin-bottom: 12px;
+          max-width: 75%;
+         word-wrap: break-word; /* Ensure text wraps */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+          transition: background-color 0.3s ease;
+          display: flex;
+         flex-direction: column;
+          align-items: flex-start;
+          position: relative;
+          /* clear: both; Removing clear so it respects border limits, this is only good if you want to do floatings*/
+         word-break: break-word; /* Added break-word to avoid overflow */
+        }
+
+
+   .message-sent {
+      background-color: #4a3562;
+      align-self: flex-end; /*  Sent message moves to the right*/
+    }
+
+    .message-received {
+       background-color: #3a3a4a;
+      align-self: flex-start;/* Recieved message moves to the left*/
+    }
+
+    .message-sent:hover, .message-received:hover {
+      background-color: #444;
+    }
+      .sender-name {
+          font-weight: bold;
+         margin-bottom: 5px;  /* set the margin-bottom to put a gap between the profile and message text*/
+            display: inline-flex; /* Display profile img and user text horizontally */
+            align-items: center;
+          font-size: 0.9em;
+        color: #aaa;
+            background: transparent;
+          padding: 0px 5px;
+        }
+
+
+       .message-attachment {
+          max-width: 300px;
+          max-height: 200px;
+        border-radius: 8px;
+        margin-top: 5px;
+         display: block;
+        /* clear: both; */ /* removing since there might be issue when removing the `clear: both` on the messages and added box sizing to container*/
+    }
+  .message-sent .sender-name { /* Style when message has send to align the logo on the right of the sender name */
+     flex-direction: row-reverse; /* Flips elements order in sender name */
+   }
+    .message-sent .sender-name img { /* Aligns the profile img at the right when message is sent. */
+    margin-left: 5px; /*  set margin-left to separate the profile photo from the sender name  */
+        margin-right: 0; /* overrides general profile photo*/
+      }
+
+  .message-received .sender-name  img { /* align to the left of the message */
+      margin-right: 5px;/* set the margin-right to separate profile image */
+  }
+
+   .message-form {
+     display: flex;
+      margin-top: 25px;
+       border-top: 2px solid #61448a;
+       padding-top: 15px;
+   }
+
+  .message-form textarea, .message-form button {
+       padding: 12px;
+        border: 1px solid #61448a;
+       border-radius: 6px;
+     transition: border-color 0.3s ease;
+      background-color: rgba(255, 255, 255, 0.1);
+       color: #fff;
+       resize: vertical;/* Added to allow vertical resize */
+      max-height: 150px;  /* set the max height */
+       font-family: inherit;
+     }
+     .message-form textarea:focus {
+      border-color: #c8a2c8;
+      outline: none;
+    }
+
+     .message-form input, .message-form button { /* to not affect the other input elements */
+       padding: 12px;
+        border: 1px solid #61448a;
+         border-radius: 6px;
+     transition: border-color 0.3s ease;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+    .message-form button {
+       background-color: #c8a2c8;
+      color: #222;
+       border: none;
+      cursor: pointer;
+       transition: background-color 0.3s ease;
+  }
+  .message-form button:hover {
+    background-color: #b179bb;
+     color: #fff;
+  }
+
+
+    .logout-btn {
+       background-color: #ff4d4d;
+      color: white;
+       border: none;
+     padding: 10px 15px;
+      border-radius: 8px;
+    cursor: pointer;
+       text-decoration: none;
+      transition: background-color 0.3s ease;
+  }
+  .logout-btn:hover {
+       background-color: #cc0000;
+  }
+
+  .profile-photo{
+    width: 25px;
+    border-radius: 100%;
+    margin-right: 5px;
+ }
+ .attachment-input {
+    color: transparent;
+      width: 20px;
+        height: 20px;
+    }
+
+   .attachment-input::-webkit-file-upload-button {
+   visibility: hidden;
+   }
+    .attachment-input::before {
+        content: '\+';
+        display: inline-block;
+        color: #aaa;
+       background-color: #61448a;
+     border-radius: 100%;
+       padding: 3px 7px;
+ }
+ /* Chat Tabs */
+      .chat-tabs {
+         display: flex;
+        border-bottom: 2px solid #61448a;
+      }
+
+    .chat-tabs .tab {
+       padding: 12px 15px;
+        background-color: transparent;
+        color: #aaa;
+       border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+     }
+
+    .chat-tabs .tab.active {
+      border-bottom-color: #c8a2c8;
+       color: #c8a2c8;
+     }
+
+   .chat-tabs .tab:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+       .tab-content {
+       display: none;
+       padding-top: 20px;
+      }
+
+     .tab-content.active {
+        display: block;
+      }
+   .profile-content {
+       padding: 20px;
+     }
+       .profile-content h2 {
+        color: #c8a2c8;
+         margin-bottom: 20px;
+        }
+     .profile-content p {
+         margin-bottom: 10px;
+       }
+    #copy-user-id{
+       background: transparent;
+         border: 1px solid #61448a;
+      color: #aaa;
+       padding: 5px 10px;
+      border-radius: 5px;
+     }
