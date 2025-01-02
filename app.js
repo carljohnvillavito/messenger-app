@@ -18,7 +18,6 @@ const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
-
 mongoose.connect(MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Error connecting to MongoDB:', err));
@@ -42,30 +41,41 @@ app.use(chatRoutes);
 // Basic route for home
 app.get('/', (req, res) => {
     if (req.session.userId) {
-      res.redirect('/chat');
+        res.redirect('/chat');
     } else {
-      res.redirect('/login');
+        res.redirect('/login');
     }
+});
+
+app.get('/login', (req, res) => {
+    if (req.session.userId) {
+       return res.redirect('/chat');
+    }
+   res.render('login', { error: null, success: null });
+});
+
+app.get('/register', (req, res) => {
+    if (req.session.userId) {
+        return res.redirect('/chat');
+     }
+   res.render('register', { error: null, success: null });
 });
 
 io.on('connection', (socket) => {
     console.log('A user connected');
 
     socket.on('disconnect', () => {
-      console.log('User disconnected');
+        console.log('User disconnected');
     });
 
     socket.on('chat message', async (msg) => {
-       try {
-          // Find the user based on the id that has send the message.
-          const user = await User.findById(msg.sender._id);
-          // Create a new message object to be saved in database.
-          const newMessage = new Message({ sender: user._id, content: msg.content });
-          await newMessage.save();
-           io.emit('chat message', { ...msg, sender: { _id: user._id, username: user.username }}); // Send the message to all connected users.
-
-       } catch (error) {
-          console.error('Error saving message', error)
+        try {
+            const user = await User.findById(msg.sender._id);
+            const newMessage = new Message({ sender: user._id, content: msg.content });
+            await newMessage.save();
+             io.emit('chat message', { ...msg, sender: { _id: user._id, username: user.username }});
+        } catch (error) {
+            console.error('Error saving message', error)
         }
     });
 });
