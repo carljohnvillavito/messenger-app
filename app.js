@@ -7,18 +7,21 @@ const MongoStore = require('connect-mongo');
 const authRoutes = require('./routes/auth');
 const chatRoutes = require('./routes/chat');
 const path = require('path');
-const http = require('http'); // Import the http module
-const { Server } = require('socket.io'); // Import Socket.IO
+const http = require('http');
+const { Server } = require('socket.io');
+const Message = require('./models/message'); // Bring back the Message model
+const User = require('./models/user'); // Bring back the User model
 
 const app = express();
-const server = http.createServer(app); // Create an http server
-const io = new Server(server); // Initialize Socket.IO
+const server = http.createServer(app);
+const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
+
 mongoose.connect(MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('Error connecting to MongoDB:', err));
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('Error connecting to MongoDB:', err));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -26,10 +29,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'default_secret',
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: MONGODB_URI })
+    secret: process.env.SESSION_SECRET || 'default_secret',
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: MONGODB_URI })
 }));
 
 // Routes
@@ -37,27 +40,36 @@ app.use(authRoutes);
 app.use(chatRoutes);
 
 // Basic route for home
- app.get('/', (req, res) => {
-     if (req.session.userId) {
-       res.redirect('/chat');
-     } else {
-       res.redirect('/login');
-     }
- });
+app.get('/', (req, res) => {
+    if (req.session.userId) {
+      res.redirect('/chat');
+    } else {
+      res.redirect('/login');
+    }
+});
 
- // Socket.IO connection handler
- io.on('connection', (socket) => {
-     console.log('A user connected');
+io.on('connection', (socket) => {
+    console.log('A user connected');
 
-     socket.on('disconnect', () => {
-         console.log('User disconnected');
-     });
+    socket.on('disconnect', () => {
+      console.log('User disconnected');
+    });
 
-     socket.on('chat message', (msg) => {
-         io.emit('chat message', msg); // Broadcast the message
-     });
- });
+    socket.on('chat message', async (msg) => {
+       try {
+          // Find the user based on the id that has send the message.
+          const user = await User.findById(msg.sender._id);
+          // Create a new message object to be saved in database.
+          const newMessage = new Message({ sender: user._id, content: msg.content });
+          await newMessage.save();
+           io.emit('chat message', { ...msg, sender: { _id: user._id, username: user.username }}); // Send the message to all connected users.
 
-server.listen(PORT, () => { // Use the http server to listen
+       } catch (error) {
+          console.error('Error saving message', error)
+        }
+    });
+});
+
+server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
