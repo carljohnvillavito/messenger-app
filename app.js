@@ -9,16 +9,14 @@ const chatRoutes = require('./routes/chat');
 const path = require('path');
 const http = require('http');
 const { Server } = require('socket.io');
-const Message = require('./models/message'); // Bring back the Message model
-const User = require('./models/user'); // Bring back the User model
+const Message = require('./models/message');
+const User = require('./models/user');
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
-
-    app.set('view engine', 'ejs');
 
 mongoose.connect(MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
@@ -27,7 +25,11 @@ mongoose.connect(MONGODB_URI)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Set view engine correctly using path.join for absolute path.
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'default_secret',
@@ -51,16 +53,16 @@ app.get('/', (req, res) => {
 
 app.get('/login', (req, res) => {
     if (req.session.userId) {
-       return res.redirect('/chat');
+        return res.redirect('/chat');
     }
-   res.render('login', { error: null, success: null });
+    res.render('login', { error: null, success: null });
 });
 
 app.get('/register', (req, res) => {
     if (req.session.userId) {
         return res.redirect('/chat');
-     }
-   res.render('register', { error: null, success: null });
+    }
+    res.render('register', { error: null, success: null });
 });
 
 io.on('connection', (socket) => {
@@ -75,7 +77,7 @@ io.on('connection', (socket) => {
             const user = await User.findById(msg.sender._id);
             const newMessage = new Message({ sender: user._id, content: msg.content });
             await newMessage.save();
-             io.emit('chat message', { ...msg, sender: { _id: user._id, username: user.username }});
+            io.emit('chat message', { ...msg, sender: { _id: user._id, username: user.username }});
         } catch (error) {
             console.error('Error saving message', error)
         }
