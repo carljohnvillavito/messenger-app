@@ -1,4 +1,3 @@
-// routes/auth.js
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
@@ -14,23 +13,23 @@ router.post('/login', async (req, res) => {
       req.session.userId = user._id;
       res.redirect('/chat');
     } else {
-        res.render('login', { error: 'Invalid credentials', success: null });
+      res.render('login', { error: 'Invalid credentials', success: null });
     }
 });
 
 router.get('/register', (req, res) => {
-  res.render('register', { error: null, success: null });
+    res.render('register', { error: null, success: null });
 });
 
 router.post('/register', async (req, res) => {
-    const { username, fullname, password } = req.body;
-    try {
+  const { username, fullname, password } = req.body;
+  try {
       const existingUser = await User.findOne({ username });
       if (existingUser) {
-           return res.render('register', { error: `This user name ${username} is already registered!`, success: null });
-        }
+          return res.render('register', { error: `This user name ${username} is already registered!`, success: null });
+      }
         const user = new User({ username, fullname, password });
-      await user.save();
+        await user.save();
       res.render('register', { success: 'Account created successfully!', error: null });
     } catch(err) {
       res.render('register', { error: 'Registration failed.', success: null });
