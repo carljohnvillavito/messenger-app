@@ -7,12 +7,16 @@ const MongoStore = require('connect-mongo');
 const authRoutes = require('./routes/auth');
 const chatRoutes = require('./routes/chat');
 const path = require('path');
+const http = require('http'); // Import the http module
+const { Server } = require('socket.io'); // Import Socket.IO
 
 const app = express();
+const server = http.createServer(app); // Create an http server
+const io = new Server(server); // Initialize Socket.IO
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI; // Access the MongoDB URI from .env
+const MONGODB_URI = process.env.MONGODB_URI;
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
 
@@ -32,16 +36,28 @@ app.use(session({
 app.use(authRoutes);
 app.use(chatRoutes);
 
-// Basic route for home, redirect to login if not logged in.
-app.get('/', (req, res) => {
-    if (req.session.userId) {
-      res.redirect('/chat');
-    } else {
-      res.redirect('/login');
-    }
-  });
+// Basic route for home
+ app.get('/', (req, res) => {
+     if (req.session.userId) {
+       res.redirect('/chat');
+     } else {
+       res.redirect('/login');
+     }
+ });
 
+ // Socket.IO connection handler
+ io.on('connection', (socket) => {
+     console.log('A user connected');
 
-app.listen(PORT, () => {
+     socket.on('disconnect', () => {
+         console.log('User disconnected');
+     });
+
+     socket.on('chat message', (msg) => {
+         io.emit('chat message', msg); // Broadcast the message
+     });
+ });
+
+server.listen(PORT, () => { // Use the http server to listen
     console.log(`Server is running on http://localhost:${PORT}`);
 });
